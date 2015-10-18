@@ -1,8 +1,8 @@
 package sample;
 
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -12,9 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+
 import java.io.*;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Created by Владислав on 18.10.2015.
@@ -22,10 +22,10 @@ import java.util.List;
 public class FilmView extends StackPane {
     private ImageView coverPage;
     private ListView actorList;
-    private Button showReview;
+    private TextArea textArea;
     private FilmRating filmRating;
 
-      public FilmView(String filmName, String pathToImage, String date, String producerName, ObservableList<String> actorsAndRoles) throws IOException {
+      public FilmView(String filmName, String pathToImage, String date, String producerName, String recense, ObservableList<String> actorsAndRoles, double rating) throws IOException {
         Image image = getImage(pathToImage);
         Text filmNameText = new Text("Film name: ");
         Text premierDateText = new Text("Premier date: ");
@@ -39,7 +39,17 @@ public class FilmView extends StackPane {
         HBox premierDateSpace = new HBox(0);
         HBox producerNameSpace = new HBox(0);
         HBox nameDateInfo = new HBox(30);
+        HBox ratingSpace = new HBox(0);
         VBox nameDateProducerInfo = new VBox(20);
+        textArea = new TextArea();
+        textArea.setMaxWidth(300);
+        textArea.setMaxHeight(207);
+        textArea.setTranslateX(410);
+        textArea.setTranslateY(154);
+        textArea.setEditable(false);
+        textArea.setFont(textArea.getFont().font(14));
+
+        textArea.setText(getStringWithEnter(recense));
         filmNameText.setFill(Color.BLACK);
         filmNameText.setFont(filmNameText.getFont().font(20));
         FilmName.setFont(filmNameText.getFont().font(20));
@@ -49,7 +59,7 @@ public class FilmView extends StackPane {
         producerText.setFont(producerText.getFont().font(20));
         producerNameView.setFont(producerNameView.getFont().font(20));
         starringText.setFont(starringText.getFont().font(20));
-        ratingText.setFont(ratingText.getFont().font(20));
+        ratingText.setFont(ratingText.getFont().font(30));
         filmNameSpace.getChildren().addAll(filmNameText, FilmName);
         premierDateSpace.getChildren().addAll(premierDateText, premierDate);
         producerNameSpace.getChildren().addAll(producerText, producerNameView);
@@ -58,12 +68,9 @@ public class FilmView extends StackPane {
         actorList.setMaxWidth(200);
         actorList.setMaxHeight(205);
         nameDateProducerInfo.getChildren().addAll(nameDateInfo, producerNameSpace, starringText, actorList);
-        ratingText.setTranslateY(300);
-        ratingText.setTranslateX(-150);
+        ratingSpace.getChildren().addAll(ratingText, new FilmRating(rating));
+        ratingSpace.setTranslateY(450);
         coverPage = new ImageView(image);
-        showReview = new Button("Show Review");
-        showReview.setTranslateX(310);
-        showReview.setTranslateY(245);
         filmRating = new FilmRating(5);
         coverPage.setTranslateX(-80);
         coverPage.setTranslateY(80);
@@ -71,9 +78,16 @@ public class FilmView extends StackPane {
         coverPage.setFitHeight(image.getHeight() + 80);
         nameDateProducerInfo.setTranslateY(90);
         nameDateProducerInfo.setTranslateX(290);
-        this.getChildren().addAll(coverPage, nameDateProducerInfo, showReview, ratingText);
+        this.getChildren().addAll(coverPage, nameDateProducerInfo,  ratingSpace, textArea);
     }
-
+    private String getStringWithEnter(String recense){
+        String[] strArr = recense.split("\\.");
+        String result = "";
+        for(String x: strArr){
+            result+=(x+".\n");
+        }
+        return result;
+    }
     private Image getImage(String path){
         BufferedInputStream inputStream = null;
         try {
