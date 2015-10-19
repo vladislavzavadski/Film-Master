@@ -21,7 +21,7 @@ public class WindowTop extends StackPane {
     private Rectangle rect;
     public WindowTop(){
         searchField = new TextField();
-        rect = new Rectangle(800, 70, Color.MAGENTA);
+        rect = new Rectangle(800, 70, Color.WHITE);
         searchField.setPromptText("Enter film name...");
         searchButton = new Button("Search");
         genreBox = new ComboBox<>();
@@ -31,9 +31,9 @@ public class WindowTop extends StackPane {
         searchFieldAndButton.setTranslateX(10);
         searchFieldAndButton.setTranslateY(20);
         searchFieldAndButton.getChildren().addAll(searchField, searchButton);
-        genreBox.setTranslateX(500);
-        genreBox.setTranslateY(20);
-        getChildren().addAll(searchFieldAndButton);
+        genreBox.setTranslateX(290);
+        genreBox.setTranslateY(0);
+        getChildren().addAll(rect,searchFieldAndButton);
         getChildren().addAll(genreBox);
     }
 }

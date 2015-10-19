@@ -44,8 +44,8 @@ public class FilmView extends StackPane {
         textArea = new TextArea();
         textArea.setMaxWidth(300);
         textArea.setMaxHeight(207);
-        textArea.setTranslateX(410);
-        textArea.setTranslateY(154);
+        textArea.setTranslateX(390);
+        textArea.setTranslateY(130);
         textArea.setEditable(false);
         textArea.setFont(textArea.getFont().font(14));
 
@@ -69,16 +69,19 @@ public class FilmView extends StackPane {
         actorList.setMaxHeight(205);
         nameDateProducerInfo.getChildren().addAll(nameDateInfo, producerNameSpace, starringText, actorList);
         ratingSpace.getChildren().addAll(ratingText, new FilmRating(rating));
-        ratingSpace.setTranslateY(450);
+      //  ratingSpace.setTranslateY(450);
         coverPage = new ImageView(image);
         filmRating = new FilmRating(5);
-        coverPage.setTranslateX(-80);
-        coverPage.setTranslateY(80);
+       // coverPage.setTranslateX(-100);
+        //coverPage.setTranslateY(80);
         coverPage.setFitWidth(image.getWidth()+80);
         coverPage.setFitHeight(image.getHeight() + 80);
-        nameDateProducerInfo.setTranslateY(90);
-        nameDateProducerInfo.setTranslateX(290);
-        this.getChildren().addAll(coverPage, nameDateProducerInfo,  ratingSpace, textArea);
+        VBox ratingImage = new VBox(20);
+        ratingImage.getChildren().addAll(coverPage, ratingSpace);
+        ratingImage.setTranslateY(95);
+        nameDateProducerInfo.setTranslateY(106);
+        nameDateProducerInfo.setTranslateX(270);
+        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea);
     }
     private String getStringWithEnter(String recense){
         String[] strArr = recense.split("\\.");
