@@ -25,19 +25,22 @@ public class FilmView extends StackPane {
     private TextArea textArea;
     private FilmRating filmRating;
 
-      public FilmView(String filmName, String pathToImage, String date, String producerName, String recense, ObservableList<String> actorsAndRoles, double rating) throws IOException {
+      public FilmView(String filmName, String pathToImage, String date, String budget, String revenue,String recense, ObservableList<String> producedComp, double rating) throws IOException {
         Image image = getImage(pathToImage);
         Text filmNameText = new Text("Film name: ");
         Text premierDateText = new Text("Premier date: ");
         Text premierDate = new Text(date);
         Text FilmName = new Text(filmName);
-        Text producerText = new Text("Producer: ");
-        Text producerNameView = new Text(producerName);
-        Text starringText = new Text("Starring: ");
+        Text budgetText = new Text("Budget: ");
+        Text revenueText = new Text(" Revenue: ");
+        Text revenueView = new Text("$"+revenue);
+        Text genreText = new Text(" Genre: ");
+        Text budgetView = new Text("$"+budget);
+        Text producedText = new Text("Produced by: ");
         Text ratingText = new Text("Rating: ");
         HBox filmNameSpace = new HBox(0);
         HBox premierDateSpace = new HBox(0);
-        HBox producerNameSpace = new HBox(0);
+        HBox budgetSpace = new HBox(0);
         HBox nameDateInfo = new HBox(30);
         HBox ratingSpace = new HBox(0);
         VBox nameDateProducerInfo = new VBox(20);
@@ -48,7 +51,6 @@ public class FilmView extends StackPane {
         textArea.setTranslateY(130);
         textArea.setEditable(false);
         textArea.setFont(textArea.getFont().font(14));
-
         textArea.setText(getStringWithEnter(recense));
         filmNameText.setFill(Color.BLACK);
         filmNameText.setFont(filmNameText.getFont().font(20));
@@ -56,32 +58,35 @@ public class FilmView extends StackPane {
         FilmName.setFill(Color.BLACK);
         premierDateText.setFont(premierDateText.getFont().font(20));
         premierDate.setFont(premierDate.getFont().font(20));
-        producerText.setFont(producerText.getFont().font(20));
-        producerNameView.setFont(producerNameView.getFont().font(20));
-        starringText.setFont(starringText.getFont().font(20));
+        budgetText.setFont(budgetText.getFont().font(20));
+        budgetView.setFont(budgetView.getFont().font(20));
+        revenueText.setFont(revenueText.getFont().font(20));
+        revenueView.setFont(revenueView.getFont().font(20));
+        genreText.setFont(genreText.getFont().font(20));
+        producedText.setFont(producedText.getFont().font(20));
         ratingText.setFont(ratingText.getFont().font(30));
         filmNameSpace.getChildren().addAll(filmNameText, FilmName);
         premierDateSpace.getChildren().addAll(premierDateText, premierDate);
-        producerNameSpace.getChildren().addAll(producerText, producerNameView);
+        budgetSpace.getChildren().addAll(budgetText, budgetView, revenueText, revenueView);
         nameDateInfo.getChildren().addAll(filmNameSpace, premierDateSpace);
-        actorList = new ListView(actorsAndRoles);
+        actorList = new ListView(producedComp);
         actorList.setMaxWidth(200);
         actorList.setMaxHeight(205);
-        nameDateProducerInfo.getChildren().addAll(nameDateInfo, producerNameSpace, starringText, actorList);
+        nameDateProducerInfo.getChildren().addAll(nameDateInfo, genreText, producedText, actorList);
         ratingSpace.getChildren().addAll(ratingText, new FilmRating(rating));
-      //  ratingSpace.setTranslateY(450);
         coverPage = new ImageView(image);
         filmRating = new FilmRating(5);
-       // coverPage.setTranslateX(-100);
-        //coverPage.setTranslateY(80);
         coverPage.setFitWidth(image.getWidth()+80);
         coverPage.setFitHeight(image.getHeight() + 80);
         VBox ratingImage = new VBox(20);
         ratingImage.getChildren().addAll(coverPage, ratingSpace);
         ratingImage.setTranslateY(95);
-        nameDateProducerInfo.setTranslateY(106);
+          nameDateProducerInfo.setTranslateY(106);
         nameDateProducerInfo.setTranslateX(270);
-        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea);
+        budgetSpace.setTranslateY(-279);
+        budgetSpace.setTranslateX(400);
+
+        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea, budgetSpace);
     }
     private String getStringWithEnter(String recense){
         String[] strArr = recense.split("\\.");

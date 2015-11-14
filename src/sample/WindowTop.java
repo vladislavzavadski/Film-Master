@@ -35,5 +35,11 @@ public class WindowTop extends StackPane {
         genreBox.setTranslateY(0);
         getChildren().addAll(rect,searchFieldAndButton);
         getChildren().addAll(genreBox);
+        searchButton.setOnMouseClicked(event -> {
+            RequestProcessor re = RequestProcessor.getInstance();
+            re.setRequest("Martian");
+            re.setRequestType(RequestType.Search);
+            re.start();
+        });
     }
 }
