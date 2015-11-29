@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.application.Platform;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -19,6 +21,7 @@ public class RequestProcessor{
     private  Thread thread;
     private ArrayList<Film> films;
     private RequestType requestType;
+    private Controller controller;
     private RequestProcessor(){}
     public static RequestProcessor getInstance(){
         if(requestProcessor==null){
@@ -37,7 +40,7 @@ public class RequestProcessor{
     public String getResponse(){
         return response;
     }
-
+    public void setController(Controller controller){this.controller = controller;}
     public void start(){
         films = new ArrayList<>();
         thread = new Thread(){
@@ -61,6 +64,12 @@ public class RequestProcessor{
                     }
 
                 }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        controller.end(films);
+                    }
+                });
             }
         };
         thread.start();

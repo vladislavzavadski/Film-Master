@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 /**
- * Created by Владислав on 14.11.2015.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 14.11.2015.
  */
 public class Film {
     private String pathToImage;
@@ -15,7 +15,7 @@ public class Film {
     private String revenue;
     private String overview;
     private double rating;
-    private ObservableList<String> producedComp;
+    private ArrayList<String> producedComp;
     private ArrayList<String> genre;
     public Film() {
 
@@ -49,7 +49,7 @@ public class Film {
         this.rating = rating;
     }
 
-    public void setProducedComp(ObservableList<String> producedComp) {
+    public void setProducedComp(ArrayList<String> producedComp) {
         this.producedComp = producedComp;
     }
 
@@ -81,7 +81,15 @@ public class Film {
         return rating;
     }
 
-    public ObservableList<String> getProducedComp() {
+    public ArrayList<String> getProducedComp() {
         return producedComp;
+    }
+
+    public ArrayList<String> getGenre() {
+        return genre;
+    }
+
+    public void setGenre(ArrayList<String> genre) {
+        this.genre = genre;
     }
 }

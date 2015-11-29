@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 /**
@@ -86,6 +88,15 @@ public class StringProcessor {
             genres.add(tempComp);
             tempComp = "";
         }
+        result.setBudget(budget);
+        result.setFilmName(title);
+        result.setOverview(overview);
+        result.setPathToImage(pathToImage);
+        result.setPremierDate(releaseDate);
+        result.setProducedComp(coms);
+        result.setRating(rating);
+        result.setRevenue(revenue);
+        result.setGenre(genres);
         return result;
     }
 

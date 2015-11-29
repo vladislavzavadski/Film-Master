@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -21,9 +22,13 @@ public class MainForm extends Group {
     private Separator separatorLine;
     private ScrollBar sb;
     private Image image;
+    private Model model;
     private ImageView connectionLost;
     private VBox films;
+    private Controller controller;
     public MainForm(){
+        model = new Model();
+        controller = new Controller(model, this);
         windowTop = new WindowTop();
         try {
             if("127.0.0.1".equals(InetAddress.getLocalHost().getHostAddress().toString())){
@@ -74,11 +79,20 @@ public class MainForm extends Group {
         separatorLine.setTranslateY(70);
         films = new VBox(40);
         getChildren().addAll(separatorLine, windowTop);
+        windowTop.getSearchButton().setOnMouseClicked(event -> {
+            controller.processRequest(windowTop.getRequest());
+        });
         sb.valueProperty().addListener((ov, old_val, new_val) -> {
             films.setLayoutY(-new_val.doubleValue());
         });
     }
-    public void fun1(){
-        getChildren().remove(connectionLost);
+    public void update(){
+        try {
+            films.getChildren().addAll(new FilmView(model.getFilm(0)));
+            this.getChildren().addAll(films);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

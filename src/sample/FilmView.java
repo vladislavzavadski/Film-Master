@@ -1,6 +1,8 @@
 package sample;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -15,29 +17,31 @@ import javafx.scene.text.Text;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
- * Created by Владислав on 18.10.2015.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 18.10.2015.
  */
 public class FilmView extends StackPane {
     private ImageView coverPage;
     private ListView actorList;
     private TextArea textArea;
     private FilmRating filmRating;
-
-      public FilmView(String filmName, String pathToImage, String date, String budget, String revenue,String recense, ObservableList<String> producedComp, double rating) throws IOException {
-        Image image = getImage(pathToImage);
+      public FilmView(Film film) throws IOException {
+        Image image = getImage(film.getPathToImage());
         Text filmNameText = new Text("Film name: ");
         Text premierDateText = new Text("Premier date: ");
-        Text premierDate = new Text(date);
-        Text FilmName = new Text(filmName);
+        Text premierDate = new Text(film.getPremierDate());
+        Text FilmName = new Text(film.getFilmName());
         Text budgetText = new Text("Budget: ");
         Text revenueText = new Text(" Revenue: ");
-        Text revenueView = new Text("$"+revenue);
+        Text revenueView = new Text("$"+film.getRevenue());
         Text genreText = new Text(" Genre: ");
-        Text budgetView = new Text("$"+budget);
+        Text budgetView = new Text("$"+film.getBudget());
         Text producedText = new Text("Produced by: ");
         Text ratingText = new Text("Rating: ");
+        ListView genre = new ListView(getGenres(film.getGenre()));
+        genre.setOrientation(Orientation.HORIZONTAL);
         HBox filmNameSpace = new HBox(0);
         HBox premierDateSpace = new HBox(0);
         HBox budgetSpace = new HBox(0);
@@ -51,11 +55,12 @@ public class FilmView extends StackPane {
         textArea.setTranslateY(130);
         textArea.setEditable(false);
         textArea.setFont(textArea.getFont().font(14));
-        textArea.setText(getStringWithEnter(recense));
+        textArea.setText(getStringWithEnter(film.getOverview()));
         filmNameText.setFill(Color.BLACK);
         filmNameText.setFont(filmNameText.getFont().font(20));
         FilmName.setFont(filmNameText.getFont().font(20));
         FilmName.setFill(Color.BLACK);
+      //  genre.setFont(genre.getFont().font(20));
         premierDateText.setFont(premierDateText.getFont().font(20));
         premierDate.setFont(premierDate.getFont().font(20));
         budgetText.setFont(budgetText.getFont().font(20));
@@ -69,11 +74,14 @@ public class FilmView extends StackPane {
         premierDateSpace.getChildren().addAll(premierDateText, premierDate);
         budgetSpace.getChildren().addAll(budgetText, budgetView, revenueText, revenueView);
         nameDateInfo.getChildren().addAll(filmNameSpace, premierDateSpace);
-        actorList = new ListView(producedComp);
+
+        genre.setMaxWidth(200);
+        genre.setMaxHeight(35);
+        actorList = new ListView(getProdComps(film.getProducedComp()));
         actorList.setMaxWidth(200);
         actorList.setMaxHeight(205);
         nameDateProducerInfo.getChildren().addAll(nameDateInfo, genreText, producedText, actorList);
-        ratingSpace.getChildren().addAll(ratingText, new FilmRating(rating));
+        ratingSpace.getChildren().addAll(ratingText, new FilmRating(film.getRating()));
         coverPage = new ImageView(image);
         filmRating = new FilmRating(5);
         coverPage.setFitWidth(image.getWidth()+80);
@@ -81,12 +89,13 @@ public class FilmView extends StackPane {
         VBox ratingImage = new VBox(20);
         ratingImage.getChildren().addAll(coverPage, ratingSpace);
         ratingImage.setTranslateY(95);
-          nameDateProducerInfo.setTranslateY(106);
+        nameDateProducerInfo.setTranslateY(106);
         nameDateProducerInfo.setTranslateX(270);
-        budgetSpace.setTranslateY(-279);
+        budgetSpace.setTranslateY(150);
         budgetSpace.setTranslateX(400);
-
-        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea, budgetSpace);
+        genre.setTranslateX(240);
+        genre.setTranslateY(-54);
+        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea, genre, budgetSpace);
     }
     private String getStringWithEnter(String recense){
         String[] strArr = recense.split("\\.");
@@ -130,5 +139,20 @@ public class FilmView extends StackPane {
         }
         File file = new File("resourse/image.jpg");
         return new Image(file.toURI().toString());
+    }
+    private ObservableList<String> getGenres(ArrayList<String> genr){
+        ObservableList<String> items = FXCollections.observableArrayList();
+        for(String x: genr){
+            items.add(x);
+        }
+        return items;
+    }
+
+    private ObservableList<String> getProdComps(ArrayList<String> comps){
+        ObservableList<String> items = FXCollections.observableArrayList();
+        for(String x: comps){
+            items.add(x);
+        }
+        return items;
     }
 }
