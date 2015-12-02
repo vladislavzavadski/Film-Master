@@ -13,4 +13,7 @@ public class Model {
     public Film getFilm(int index){
         return films.get(index);
     }
+    public int getArraySize(){
+        return films.size();
+    }
 }

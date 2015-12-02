@@ -36,7 +36,15 @@ public class WindowTop extends StackPane {
         genreBox.setTranslateY(0);
         getChildren().addAll(rect, searchFieldAndButton);
         getChildren().addAll(genreBox);
-
+        searchButton.setDisable(true);
+        searchField.setOnKeyTyped(event -> {
+            if(searchField.getText().equals("")){
+                searchButton.setDisable(true);
+            }
+            else{
+                searchButton.setDisable(false);
+            }
+        });
     }
     public Button getSearchButton() {
         return searchButton;

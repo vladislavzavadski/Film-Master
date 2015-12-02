@@ -11,7 +11,7 @@ public class Controller {
     }
     public void processRequest(String request){
         RequestProcessor re = RequestProcessor.getInstance();
-        re.setRequest(request);
+        re.setRequest(request.replaceAll(" ", "+"));
         re.setController(this);
         re.setRequestType(RequestType.Search);
         re.start();

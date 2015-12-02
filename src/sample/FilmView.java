@@ -6,6 +6,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
@@ -60,7 +61,7 @@ public class FilmView extends StackPane {
         filmNameText.setFont(filmNameText.getFont().font(20));
         FilmName.setFont(filmNameText.getFont().font(20));
         FilmName.setFill(Color.BLACK);
-      //  genre.setFont(genre.getFont().font(20));
+       // genre.setFont(genre.getFont().font(20));
         premierDateText.setFont(premierDateText.getFont().font(20));
         premierDate.setFont(premierDate.getFont().font(20));
         budgetText.setFont(budgetText.getFont().font(20));
@@ -95,7 +96,7 @@ public class FilmView extends StackPane {
         budgetSpace.setTranslateX(400);
         genre.setTranslateX(240);
         genre.setTranslateY(-54);
-        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea, genre, budgetSpace);
+        this.getChildren().addAll(ratingImage,nameDateProducerInfo, textArea, genre);
     }
     private String getStringWithEnter(String recense){
         String[] strArr = recense.split("\\.");
