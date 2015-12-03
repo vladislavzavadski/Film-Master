@@ -34,6 +34,9 @@ public class MainForm extends Group {
     private Rectangle rect;
     private ProgressIndicator indicator;
     private boolean is = false;
+    private boolean fail = false;
+    private File file = new File("resourse/no.png");
+    private ImageView not_found = new ImageView(new Image(file.toURI().toString()));
     public MainForm(){
         model = new Model();
         controller = new Controller(model, this);
@@ -46,6 +49,8 @@ public class MainForm extends Group {
         windowTop = new WindowTop();
         rect = new Rectangle(800, 600, Color.WHITE);
         rect.setOpacity(0.6);
+        not_found.setTranslateX(110);
+        not_found.setTranslateY(130);
         try {
             if("127.0.0.1".equals(InetAddress.getLocalHost().getHostAddress().toString())){
                 image = new Image(new File("resourse/lost.png").toURI().toString());
@@ -94,7 +99,7 @@ public class MainForm extends Group {
         sb.setMax((480)*5);
 
         separatorLine.setTranslateY(70);
-        films = new VBox(40);
+        films = new VBox(0);
         getChildren().addAll(separatorLine, windowTop);
         windowTop.getSearchButton().setOnMouseClicked(event -> {
             controller.processRequest(windowTop.getRequest());
@@ -104,27 +109,47 @@ public class MainForm extends Group {
             films.setLayoutY(-new_val.doubleValue());
         });
     }
-    public void update(){
+    public void update() {
+            try {
+                films.getChildren().clear();
+                if (is) {
+                    getChildren().remove(films);
+                    getChildren().remove(sb);
+                   // this.getChildren().remove(windowTop);
+                }
+                if(model.valid()) {
+                    for (int i = 0; i < model.getArraySize(); i++) {
+                        films.getChildren().addAll(new FilmView(model.getFilm(i)));
+                    }
+                    sb.setMax(530 * (model.getArraySize() - 1));
+                    this.getChildren().remove(windowTop);
+                    this.getChildren().addAll(films, windowTop);
+                    getChildren().addAll(sb);
+                    is = true;
+                    getChildren().remove(rect);
+                    getChildren().remove(indicator);
+                    if(fail){
+                        getChildren().remove(not_found);
+                    }
+                    fail = false;
+                }
+                else{
+                    if(!fail)
+                    getChildren().add(not_found);
+                    getChildren().remove(windowTop);
+                         getChildren().add(windowTop);
+                    getChildren().remove(rect);
+                    getChildren().remove(indicator);
+                    is = true;
+                    fail = true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        try {
-            films.getChildren().clear();
-            if(is){
-                getChildren().remove(films);
-                getChildren().remove(sb);
-            }
-            for(int i=0; i<model.getArraySize(); i++) {
-                films.getChildren().addAll(new FilmView(model.getFilm(i)));
-            }
-            sb.setMax(480*(model.getArraySize()-1));
-            this.getChildren().remove(windowTop);
-            this.getChildren().addAll(films, windowTop);
-            getChildren().addAll(sb);
-            is = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        getChildren().remove(rect);
-        getChildren().remove(indicator);
+
+
     }
+
 
 }

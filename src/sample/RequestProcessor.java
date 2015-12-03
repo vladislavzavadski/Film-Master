@@ -37,39 +37,56 @@ public class RequestProcessor{
         this.requestType = requestType;
     }
 
-    public String getResponse(){
-        return response;
-    }
     public void setController(Controller controller){this.controller = controller;}
     public void start(){
         films = new ArrayList<>();
         thread = new Thread(){
-            public void run(){
-                if(requestType==RequestType.Discover){
+            public void run() {
+                if (requestType == RequestType.Discover) {
 
                 }
-                if(requestType==RequestType.Search){
+                if (requestType == RequestType.Search) {
                     try {
-                        response = doGet(requestTemplate+"search/movie?query="+request+"&"+api_key);
+                        response = doGet(requestTemplate + "search/movie?query=" + request + "&" + api_key);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     result = response.split("\\Q},{\\E");
-                    for(String film:result){
-                       try {
-                            films.add(StringProcessor.getFilmbyDesc(doGet(requestTemplate+"movie/"+StringProcessor.getFilmId(film)+"?"+api_key)));
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    if (response.equals("{\"page\":1,\"results\":[],\"total_results\":0,\"total_pages\":1}")) {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.end(null);
+                            }
+                        });
+                    } else {
+                        for (String film : result) {
+                            try {
+                                String pathToImage = "https://image.tmdb.org/t/p/w185";
+                                int index = film.indexOf("\"poster_path\":\"");
+                                if(index!=-1) {
+                                    index += 16;
+                                    for (int i = index; film.charAt(i) != '\"' && index != -1; i++) {
+                                        pathToImage += film.charAt(i);
+                                    }
+                                }
+                                else{
+                                    pathToImage = "";
+                                }
+                                films.add(StringProcessor.getFilmbyDesc(doGet(requestTemplate + "movie/" + StringProcessor.getFilmId(film) + "?" + api_key)).setPathToImage(pathToImage));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.end(films);
+                            }
+                        });
                     }
 
                 }
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        controller.end(films);
-                    }
-                });
             }
         };
         thread.start();

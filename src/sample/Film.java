@@ -21,8 +21,9 @@ public class Film {
 
     }
 
-    public void setPathToImage(String pathToImage) {
+    public Film setPathToImage(String pathToImage) {
         this.pathToImage = pathToImage;
+        return this;
     }
 
     public void setFilmName(String filmName) {

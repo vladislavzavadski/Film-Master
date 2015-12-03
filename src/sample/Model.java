@@ -7,8 +7,15 @@ import java.util.ArrayList;
  */
 public class Model {
     private ArrayList<Film> films;
+    private boolean isDataValid;
     public void setFilms(ArrayList<Film> films){
         this.films = films;
+        if(films==null){
+            isDataValid = false;
+        }
+        else {
+            isDataValid = true;
+        }
     }
     public Film getFilm(int index){
         return films.get(index);
@@ -16,4 +23,6 @@ public class Model {
     public int getArraySize(){
         return films.size();
     }
+    public boolean valid(){return isDataValid;}
+
 }

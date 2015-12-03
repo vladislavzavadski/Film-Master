@@ -17,25 +17,24 @@ import javafx.scene.shape.Rectangle;
 public class WindowTop extends StackPane {
     private TextField searchField;
     private Button searchButton;
-    private ComboBox<String> genreBox;
-    private Rectangle rect;
+     private Rectangle rect;
 
     public WindowTop() {
         searchField = new TextField();
         rect = new Rectangle(800, 70, Color.WHITE);
         searchField.setPromptText("Enter film name...");
         searchButton = new Button("Search");
-        genreBox = new ComboBox<>();
+     //   genreBox = new ComboBox<>();
         HBox searchFieldAndButton = new HBox(10);
-        genreBox.setPromptText("Genre");
-        genreBox.setItems(FXCollections.observableArrayList("All...", "Horror", "Action", "Comedy", "Cartoon"));
+       // genreBox.setPromptText("Genre");
+        //genreBox.setItems(FXCollections.observableArrayList("All...", "Horror", "Action", "Comedy", "Cartoon"));
         searchFieldAndButton.setTranslateX(10);
         searchFieldAndButton.setTranslateY(20);
         searchFieldAndButton.getChildren().addAll(searchField, searchButton);
-        genreBox.setTranslateX(290);
-        genreBox.setTranslateY(0);
+        //genreBox.setTranslateX(290);
+        //genreBox.setTranslateY(0);
         getChildren().addAll(rect, searchFieldAndButton);
-        getChildren().addAll(genreBox);
+        //getChildren().addAll(genreBox);
         searchButton.setDisable(true);
         searchField.setOnKeyTyped(event -> {
             if(searchField.getText().equals("")){
