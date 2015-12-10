@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Controller {
     private Model model;
-    private MainForm form;
+    private MainForm form;//TODO: consider adding active model or 
     public Controller(Model model, MainForm form){
         this.model = model;
         this.form = form;

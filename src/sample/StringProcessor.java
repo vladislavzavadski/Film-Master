@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by Владислав on 14.11.2015.
  */
-public class StringProcessor {
+public class StringProcessor {//TODO: JSON
     public static String getFilmId(String request){
         String result = "";
         int index = request.indexOf("\"id\":");
