@@ -15,6 +15,7 @@ public class Model {
         }
         else {
             isDataValid = true;
+            int i;
         }
     }
     public Film getFilm(int index){
